@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Flow <> face velocity</title>
+
+    <!-- Load fonts -->
+    <link href="https://fonts.cdnfonts.com/css/gotham-narrow" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/gotham" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+    <div class="pre-main">
+        <div class="main">
+
+
+            <h2>Flow rate <> face velocity calculator</h1>
+
+            <br><br>
+
+            <span onclick="flip()" class="textinput" style="cursor:pointer;padding:7px; background-color:white;border: 1.5px solid #CCC;border-radius: 6px;">Flip calculation</span>
+
+            <br><br>
+
+            <h3>Input</h3>
+
+            <br>
+
+            <div class="control">
+                <span class="control-label" id="a-label">Flow</span>
+                <span class="control-unit" id="a-unit">LPM</span> <br>
+                <input class="textinput" id="a" type="number" value="85" onchange="calculator1()">
+            </div>
+
+            <br>
+
+            <div class="control">
+                <span class="control-label">Diameter of aperture</span>
+                <span class="control-unit">mm</span> <br>
+                <input class="textinput" id="b" type="number" value="133.4" onchange="calculator1()">
+            </div>
+
+            <br><br>
+
+            <h3>Output</h3>
+
+            <br>
+
+            <div class="control">
+                <span class="control-label" id="c-label">Face velocity</span>
+                <span class="control-unit" id="c-unit">cm/s</span> <br>
+                <div class="output-div" id="c">-</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    var pi = 3.1415;
+
+    calculator1 = function () {
+        var Q = Number(document.getElementById("a").value)
+        var d = Number(document.getElementById("b").value)
+        r = d / 2;
+
+        v = Q * (1.6666667 * 1e-5) / (pi * r ** 2) * 1e8;
+
+        document.getElementById("c").innerHTML = (v).toPrecision(4);
+    }
+    calculator1();
+
+    calculator2 = function () {
+        var v = Number(document.getElementById("a").value)
+        var d = Number(document.getElementById("b").value)
+        r = d / 2;
+
+        Q = v * (pi * r ** 2) / 1e8 / (1.6666667 * 1e-5);
+        console.log(Q)
+
+        document.getElementById("c").innerHTML = (Q).toPrecision(3);
+    }
+
+    flip = function () {
+        a = document.getElementById("a").value;
+        c = document.getElementById("c").innerHTML;
+        document.getElementById("a").value = c;
+        document.getElementById("c").innerHTML = a;
+
+        aLabel = document.getElementById("a-label").innerHTML;
+        aUnit = document.getElementById("a-unit").innerHTML;
+        cLabel = document.getElementById("c-label").innerHTML;
+        cUnit = document.getElementById("c-unit").innerHTML;
+
+        document.getElementById("a-label").innerHTML = cLabel;
+        document.getElementById("a-unit").innerHTML = cUnit;
+        document.getElementById("c-label").innerHTML = aLabel;
+        document.getElementById("c-unit").innerHTML = aUnit;
+
+        if (document.getElementById("a").getAttribute("onchange") === "calculator2()") {
+            document.getElementById("a").setAttribute("onchange", "calculator1()");
+            document.getElementById("b").setAttribute("onchange", "calculator1()");
+        } else {
+            document.getElementById("a").setAttribute("onchange", "calculator2()");
+            document.getElementById("b").setAttribute("onchange", "calculator2()");
+        }
+    }
+</script>
