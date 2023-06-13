@@ -1,2 +1,3 @@
 # flow-to-velocity
- A simple calculator for flow rate to face velocity conversion. 
+
+A simple app to convert between flow rate and face velocity. 
